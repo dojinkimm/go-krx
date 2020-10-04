@@ -10,15 +10,15 @@ import (
 )
 
 type CompanyInformation struct {
-	CompanyName        string `json:"company_name"`
-	CodeNumber         string `json:"code_number"`
-	Category           string `json:"category"`
-	MainProduct        string `json:"main_product"`
-	ListingDate        string `json:"listing_date"`
-	SettlementMonth    string `json:"settlement_month"`
-	RepresentativeName string `json:"representative_name"`
-	Homepage           string `json:"homepage"`
-	Region             string `json:"region"`
+	Name            string `json:"name"`
+	Symbol          string `json:"symbol"`
+	Sector          string `json:"sector"`
+	Industry        string `json:"industry"`
+	ListingDate     string `json:"listing_date"`
+	SettlementMonth string `json:"settlement_month"`
+	Representative  string `json:"representative"`
+	Homepage        string `json:"homepage"`
+	Region          string `json:"region"`
 }
 
 func GetCodeNumberByCompanyName(name string) (string, error) {
@@ -30,8 +30,8 @@ func GetCodeNumberByCompanyName(name string) (string, error) {
 	// TODO @dojinkimm - find element more efficiently (e.g. binary search)
 	codeNumber := ""
 	for _, c := range companyInfo {
-		if c.CompanyName == name {
-			codeNumber = c.CodeNumber
+		if c.Name == name {
+			codeNumber = c.Symbol
 			break
 		}
 	}

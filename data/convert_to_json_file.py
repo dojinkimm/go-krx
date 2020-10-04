@@ -10,13 +10,13 @@ stock_information = list()
 for (
     i,
     (
-        company_name,
-        code_number,
-        category,
-        main_product,
+        name,
+        symbol,
+        sector,
+        industry,
         listing_date,
         settlement_month,
-        representative_name,
+        representative,
         homepage,
         region,
     ),
@@ -33,17 +33,17 @@ for (
         dfstockcode.get("지역"),
     )
 ):
-    if type(category) == float:
-        category = "없음"
+    if type(sector) == float:
+        sector = "없음"
 
-    if type(main_product) == float:
-        main_product = "없음"
+    if type(industry) == float:
+        industry = "없음"
 
     if type(settlement_month) == float:
         settlement_month = "없음"
 
-    if type(representative_name) == float:
-        representative_name = "없음"
+    if type(representative) == float:
+        representative = "없음"
 
     if type(homepage) == float:
         homepage = "없음"
@@ -51,16 +51,16 @@ for (
     if type(region) == float:
         region = "없음"
 
-    code_number = str(code_number).zfill(6)
+    symbol = str(symbol).zfill(6)
     stock_information.append(
         {
-            "company_name": company_name,
-            "code_number": code_number,
-            "category": category,
-            "main_product": main_product,
+            "name": name,
+            "symbol": symbol,
+            "sector": sector,
+            "industry": industry,
             "listing_date": listing_date,
             "settlement_month": settlement_month,
-            "representative_name": representative_name,
+            "representative": representative,
             "homepage": homepage,
             "region": region,
         }
