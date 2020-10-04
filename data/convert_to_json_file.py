@@ -67,4 +67,4 @@ for (
 
 
 with open("data.json", "w", encoding='utf-8') as json_file:
-    json.dump(stock_information, json_file)
+    json.dump(stock_information, json_file, ensure_ascii=False)
