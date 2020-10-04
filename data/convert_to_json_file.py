@@ -14,7 +14,7 @@ for (
         code_number,
         category,
         main_product,
-        listing_data,
+        listing_date,
         settlement_month,
         representative_name,
         homepage,
@@ -51,13 +51,14 @@ for (
     if type(region) == float:
         region = "없음"
 
+    code_number = str(code_number).zfill(6)
     stock_information.append(
         {
             "company_name": company_name,
             "code_number": code_number,
             "category": category,
             "main_product": main_product,
-            "listing_data": listing_data,
+            "listing_date": listing_date,
             "settlement_month": settlement_month,
             "representative_name": representative_name,
             "homepage": homepage,
