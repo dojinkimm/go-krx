@@ -1,2 +1,2 @@
-# SAMPLE APP
-Golang으로 sample app을 만들어봅니다. 기획 변경 가능
+# Go KRX
+Golang으로 KRX 정보를 얻어옵니다 
