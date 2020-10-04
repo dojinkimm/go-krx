@@ -4,6 +4,8 @@ import "fmt"
 
 func main() {
 	symbol, _ := GetSymbolByCompanyName("삼성전자")
-	stock, _ := GetStockByDateSymbol(symbol, 10)
-	fmt.Println(len(stock))
+	sellers, _ := GetTopSellersBySymbol(symbol)
+	for _, s := range sellers {
+		fmt.Println(s.name, s.volume)
+	}
 }
