@@ -3,12 +3,16 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/pkg/errors"
 	"io/ioutil"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
-type Stockprice struct {
+type StockPrice struct {
 	XMLName       xml.Name `xml:"stockprice"`
 	Text          string   `xml:",chardata"`
 	Querytime     string   `xml:"querytime,attr"`
@@ -25,7 +29,7 @@ type Stockprice struct {
 			DayLow       string `xml:"day_Low,attr"`
 			DayVolume    string `xml:"day_Volume,attr"`
 			DayGetAmount string `xml:"day_getAmount,attr"`
-		} `xml:"DailyStock"`
+		}
 	} `xml:"TBL_DailyStock"`
 	TBLAskPrice struct {
 		Text     string `xml:",chardata"`
@@ -119,30 +123,40 @@ type Stockprice struct {
 	} `xml:"stockInfo"`
 }
 
+
 func main() {
-	Get()
+	stock, _ := GetStockInfoByCodeNumber("005930")
+	fmt.Println(stock.TBLDailyStock.DailyStock)
+	//GetStockInfoByCodeNumber("005560") // not existing code
 }
 
-func Get() {
-	fmt.Println("Performing Http Get...")
+func GetStockInfoByCodeNumber(codeNumber string) (*StockPrice, error) {
 	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
-	samsung := "005930"
-	resp, err := http.Get(url + samsung)
+	resp, err := http.Get(url + codeNumber)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, errors.WithStack(err)
+	}
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Error(err)
+		}
+	}()
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, errors.WithStack(err)
 	}
 
-	defer resp.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-
-	// xml 디코딩
-	var stock Stockprice
-	xmlerr := xml.Unmarshal(bodyBytes, &stock)
+	// xml decoding
+	var stockPrice *StockPrice
+	xmlerr := xml.Unmarshal(bodyBytes, &stockPrice)
 	if xmlerr != nil {
-		panic(xmlerr)
+		return nil, xmlerr
 	}
 
-	for _, s := range stock.TBLDailyStock.DailyStock {
-		fmt.Println(s.DayDate, s.DayEndPrice)
+	if len(stockPrice.TBLDailyStock.DailyStock) == 0 {
+		return nil, status.Error(codes.NotFound, "Stock not found by given code number")
 	}
+
+	return stockPrice, nil
 }
