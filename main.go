@@ -2,17 +2,16 @@ package main
 
 import (
 	"encoding/xml"
-	"fmt"
-	"github.com/pkg/errors"
 	"io/ioutil"
 	"net/http"
 
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-type StockPrice struct {
+type StockInformation struct {
 	XMLName       xml.Name `xml:"stockprice"`
 	Text          string   `xml:",chardata"`
 	Querytime     string   `xml:"querytime,attr"`
@@ -123,14 +122,15 @@ type StockPrice struct {
 	} `xml:"stockInfo"`
 }
 
-
 func main() {
-	stock, _ := GetStockInfoByCodeNumber("005930")
-	fmt.Println(stock.TBLDailyStock.DailyStock)
-	//GetStockInfoByCodeNumber("005560") // not existing code
+	//stock, _ := getStockInfoByCodeNumber("005930")
+	//fmt.Println(&stock)
+	//_, err := getStockInfoByCodeNumber("005560") // not existing code
+	//fmt.Println(err)
+	getCodeNumberByCompanyName("삼성전자")
 }
 
-func GetStockInfoByCodeNumber(codeNumber string) (*StockPrice, error) {
+func getStockInfoByCodeNumber(codeNumber string) (*StockInformation, error) {
 	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
 	resp, err := http.Get(url + codeNumber)
 	if err != nil {
@@ -148,15 +148,15 @@ func GetStockInfoByCodeNumber(codeNumber string) (*StockPrice, error) {
 	}
 
 	// xml decoding
-	var stockPrice *StockPrice
-	xmlerr := xml.Unmarshal(bodyBytes, &stockPrice)
+	var stockInfo *StockInformation
+	xmlerr := xml.Unmarshal(bodyBytes, &stockInfo)
 	if xmlerr != nil {
-		return nil, xmlerr
+		return nil, errors.WithStack(xmlerr)
 	}
 
-	if len(stockPrice.TBLDailyStock.DailyStock) == 0 {
-		return nil, status.Error(codes.NotFound, "Stock not found by given code number")
+	if len(stockInfo.TBLDailyStock.DailyStock) == 0 {
+		return nil, status.Errorf(codes.NotFound, "Stock not found by given code number: %s", codeNumber)
 	}
 
-	return stockPrice, nil
+	return stockInfo, nil
 }
