@@ -7,7 +7,7 @@ type Stock struct {
 	previousClose string
 	volume        string
 	tradingValue  string
-	marketValue   string
+	startValue    string
 	low           string
 	high          string
 	low52Week     string
@@ -32,7 +32,7 @@ func GetStockBySymbol(symbol string) (*Stock, error) {
 		previousClose: s.TBLStockInfo.PrevJuka,
 		volume:        s.TBLStockInfo.Volume,
 		tradingValue:  s.TBLStockInfo.Money,
-		marketValue:   s.TBLStockInfo.StartJuka,
+		startValue:    s.TBLStockInfo.StartJuka,
 		low:           s.TBLStockInfo.LowJuka,
 		high:          s.TBLStockInfo.HighJuka,
 		low52Week:     s.TBLStockInfo.Low52,
