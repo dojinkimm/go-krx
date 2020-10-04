@@ -127,10 +127,10 @@ func main() {
 	//fmt.Println(&stock)
 	//_, err := getStockInfoByCodeNumber("005560") // not existing code
 	//fmt.Println(err)
-	getCodeNumberByCompanyName("삼성전자")
+	//GetCodeNumberByCompanyName("삼성전자")
 }
 
-func getStockInfoByCodeNumber(codeNumber string) (*StockInformation, error) {
+func GetStockInfoByCodeNumber(codeNumber string) (*StockInformation, error) {
 	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
 	resp, err := http.Get(url + codeNumber)
 	if err != nil {
@@ -156,6 +156,20 @@ func getStockInfoByCodeNumber(codeNumber string) (*StockInformation, error) {
 
 	if len(stockInfo.TBLDailyStock.DailyStock) == 0 {
 		return nil, status.Errorf(codes.NotFound, "Stock not found by given code number: %s", codeNumber)
+	}
+
+	return stockInfo, nil
+}
+
+func GetStockInfoByCompanyName(companyName string) (*StockInformation, error) {
+	codeNumber, err := GetCodeNumberByCompanyName(companyName)
+	if err != nil {
+		return nil, err
+	}
+
+	stockInfo, err := GetStockInfoByCodeNumber(codeNumber)
+	if err != nil {
+		return nil, err
 	}
 
 	return stockInfo, nil

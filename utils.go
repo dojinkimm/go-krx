@@ -21,7 +21,7 @@ type CompanyInformation struct {
 	Region             string `json:"region"`
 }
 
-func getCodeNumberByCompanyName(name string) (string, error) {
+func GetCodeNumberByCompanyName(name string) (string, error) {
 	companyInfo, err := getCompanyInformationListFromJsonFile()
 	if err != nil {
 		return "", err
