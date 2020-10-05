@@ -31,7 +31,7 @@ type KRX100 struct {
 }
 
 func GetKOSPI() (*KOSPI, error) {
-	s, err := getStockInfoBySymbol("000000")
+	s, err := getKRXMarketInfo()
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func GetKOSPI() (*KOSPI, error) {
 }
 
 func GetKOSPI200() (*KOSPI200, error) {
-	s, err := getStockInfoBySymbol("000000")
+	s, err := getKRXMarketInfo()
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func GetKOSPI200() (*KOSPI200, error) {
 }
 
 func GetKOSDAQ() (*KOSDAQ, error) {
-	s, err := getStockInfoBySymbol("000000")
+	s, err := getKRXMarketInfo()
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func GetKOSDAQ() (*KOSDAQ, error) {
 }
 
 func GetKOSDAQStarIndex() (*KOSDAQStarIndex, error) {
-	s, err := getStockInfoBySymbol("000000")
+	s, err := getKRXMarketInfo()
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func GetKOSDAQStarIndex() (*KOSDAQStarIndex, error) {
 }
 
 func GetKRX100() (*KRX100, error) {
-	s, err := getStockInfoBySymbol("000000")
+	s, err := getKRXMarketInfo()
 	if err != nil {
 		return nil, err
 	}

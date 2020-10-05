@@ -16,7 +16,7 @@ type DailyStock struct {
 	High         string
 }
 
-func GetStockByDateSymbol(symbol string, date int) ([]*DailyStock, error) {
+func GetStockBySymbolAndDate(symbol string, date int) ([]*DailyStock, error) {
 	s, err := getStockInfoBySymbol(symbol)
 	if err != nil {
 		return nil, err

@@ -177,15 +177,27 @@ func getStockInfoBySymbol(symbol string) (*StockInformation, error) {
 	return stockInfo, nil
 }
 
-func getStockInfoByCompanyName(companyName string) (*StockInformation, error) {
-	symbol, err := GetSymbolByCompanyName(companyName)
+func getKRXMarketInfo() (*StockInformation, error) {
+	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
+	resp, err := http.Get(url + "000000")
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
+	}
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Error(err)
+		}
+	}()
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, errors.WithStack(err)
 	}
 
-	stockInfo, err := getStockInfoBySymbol(symbol)
-	if err != nil {
-		return nil, err
+	var stockInfo *StockInformation
+	xmlerr := xml.Unmarshal(bodyBytes, &stockInfo)
+	if xmlerr != nil {
+		return nil, errors.WithStack(xmlerr)
 	}
 
 	return stockInfo, nil
