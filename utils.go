@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
@@ -220,23 +219,13 @@ func GetSymbolByCompanyName(name string) (string, error) {
 }
 
 func getCompanyListFromJsonFile() ([]*Company, error) {
-	jsonFile, err := os.Open("data/data.json")
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-	defer func() {
-		if err := jsonFile.Close(); err != nil {
-			log.Error(err)
-		}
-	}()
-
-	byteValue, err := ioutil.ReadAll(jsonFile)
+	jsonFile, err := ioutil.ReadFile("data/data.json")
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
 	var companies []*Company
-	if err = json.Unmarshal(byteValue, &companies); err != nil {
+	if err = json.Unmarshal(jsonFile, &companies); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
