@@ -1,22 +1,22 @@
-package main
+package krx
 
 type Stock struct {
-	quote         string
-	upDown        string
-	dayOverDay    string
-	previousClose string
-	volume        string
-	tradingValue  string
-	startValue    string
-	low           string
-	high          string
-	low52Week     string
-	high52week    string
-	upperLimit    string
-	lowerLimit    string
-	listedShares  string
-	faceValue     string
-	per           string
+	Quote         string
+	UpDown        UpDown
+	DayOverDay    string
+	PreviousClose string
+	Volume        string
+	TradingValue  string
+	StartValue    string
+	Low           string
+	High          string
+	Low52Week     string
+	High52week    string
+	UpperLimit    string
+	LowerLimit    string
+	ListedShares  string
+	FaceValue     string
+	PER           string
 }
 
 func GetStockBySymbol(symbol string) (*Stock, error) {
@@ -26,21 +26,21 @@ func GetStockBySymbol(symbol string) (*Stock, error) {
 	}
 
 	return &Stock{
-		quote:         s.TBLStockInfo.CurJuka,
-		upDown:        s.TBLStockInfo.DungRak,
-		dayOverDay:    s.TBLStockInfo.Debi,
-		previousClose: s.TBLStockInfo.PrevJuka,
-		volume:        s.TBLStockInfo.Volume,
-		tradingValue:  s.TBLStockInfo.Money,
-		startValue:    s.TBLStockInfo.StartJuka,
-		low:           s.TBLStockInfo.LowJuka,
-		high:          s.TBLStockInfo.HighJuka,
-		low52Week:     s.TBLStockInfo.Low52,
-		high52week:    s.TBLStockInfo.High52,
-		upperLimit:    s.TBLStockInfo.UpJuka,
-		lowerLimit:    s.TBLStockInfo.DownJuka,
-		listedShares:  s.TBLStockInfo.Amount,
-		faceValue:     s.TBLStockInfo.FaceJuka,
-		per:           s.TBLStockInfo.Per,
+		Quote:         s.TBLStockInfo.CurJuka,
+		UpDown:        castToUpDown(s.TBLStockInfo.DungRak),
+		DayOverDay:    s.TBLStockInfo.Debi,
+		PreviousClose: s.TBLStockInfo.PrevJuka,
+		Volume:        s.TBLStockInfo.Volume,
+		TradingValue:  s.TBLStockInfo.Money,
+		StartValue:    s.TBLStockInfo.StartJuka,
+		Low:           s.TBLStockInfo.LowJuka,
+		High:          s.TBLStockInfo.HighJuka,
+		Low52Week:     s.TBLStockInfo.Low52,
+		High52week:    s.TBLStockInfo.High52,
+		UpperLimit:    s.TBLStockInfo.UpJuka,
+		LowerLimit:    s.TBLStockInfo.DownJuka,
+		ListedShares:  s.TBLStockInfo.Amount,
+		FaceValue:     s.TBLStockInfo.FaceJuka,
+		PER:           s.TBLStockInfo.Per,
 	}, nil
 }

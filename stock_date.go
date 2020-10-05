@@ -1,19 +1,19 @@
-package main
+package krx
 
 import (
 	"sort"
 )
 
 type DailyStock struct {
-	date         string
-	endPrice     string
-	upDown       string
-	dayOverDay   string
-	marketValue  string
-	low          string
-	high         string
-	volume       string
-	tradingValue string
+	Date         string
+	EndPrice     string
+	UpDown       UpDown
+	DayOverDay   string
+	Volume       string
+	TradingValue string
+	StartValue   string
+	Low          string
+	High         string
 }
 
 func GetStockByDateSymbol(symbol string, date int) ([]*DailyStock, error) {
@@ -28,15 +28,15 @@ func GetStockByDateSymbol(symbol string, date int) ([]*DailyStock, error) {
 	dailyStock := make([]*DailyStock, len(s.TBLDailyStock.DailyStock))
 	for idx, d := range s.TBLDailyStock.DailyStock {
 		dailyStock[idx] = &DailyStock{
-			date:         d.DayDate,
-			endPrice:     d.DayEndPrice,
-			upDown:       d.DayDungrak,
-			dayOverDay:   d.DayGetDebi,
-			marketValue:  d.DayStart,
-			low:          d.DayLow,
-			high:         d.DayHigh,
-			volume:       d.DayVolume,
-			tradingValue: d.DayGetAmount,
+			Date:         d.DayDate,
+			EndPrice:     d.DayEndPrice,
+			UpDown:       castToUpDown(d.DayDungrak),
+			DayOverDay:   d.DayGetDebi,
+			Volume:       d.DayVolume,
+			TradingValue: d.DayGetAmount,
+			StartValue:   d.DayStart,
+			Low:          d.DayLow,
+			High:         d.DayHigh,
 		}
 	}
 

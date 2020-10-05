@@ -1,8 +1,8 @@
-package main
+package krx
 
 type Member struct {
-	name   string
-	volume string
+	Name   string
+	Volume string
 }
 
 func GetTopBuyersBySymbol(symbol string) ([]*Member, error) {
@@ -14,8 +14,8 @@ func GetTopBuyersBySymbol(symbol string) ([]*Member, error) {
 	members := make([]*Member, len(s.TBLAskPrice.AskPrice))
 	for idx, d := range s.TBLAskPrice.AskPrice {
 		members[idx] = &Member{
-			name:   d.MemberMemsoMem,
-			volume: d.MemberMesuoVol,
+			Name:   d.MemberMemsoMem,
+			Volume: d.MemberMesuoVol,
 		}
 	}
 
@@ -30,8 +30,8 @@ func GetTopSellersBySymbol(symbol string) ([]*Member, error) {
 	members := make([]*Member, len(s.TBLAskPrice.AskPrice))
 	for idx, d := range s.TBLAskPrice.AskPrice {
 		members[idx] = &Member{
-			name:   d.MemberMemdoMem,
-			volume: d.MemberMemdoVol,
+			Name:   d.MemberMemdoMem,
+			Volume: d.MemberMemdoVol,
 		}
 	}
 

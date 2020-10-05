@@ -1,4 +1,4 @@
-package main
+package krx
 
 import (
 	"encoding/json"
@@ -136,6 +136,17 @@ type Company struct {
 	Region          string `json:"region"`
 }
 
+type UpDown int
+
+const (
+	UpperLimit UpDown = iota
+	Increase
+	Keep
+	LowerLimit
+	Decrease
+	Unknown
+)
+
 func getStockInfoBySymbol(symbol string) (*StockInformation, error) {
 	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
 	resp, err := http.Get(url + symbol)
@@ -218,4 +229,21 @@ func getCompanyListFromJsonFile() ([]*Company, error) {
 	}
 
 	return companies, nil
+}
+
+func castToUpDown(num string) UpDown {
+	switch num {
+	case "1":
+		return UpperLimit
+	case "2":
+		return Increase
+	case "3":
+		return Keep
+	case "4":
+		return LowerLimit
+	case "5":
+		return Decrease
+	}
+
+	return Unknown
 }

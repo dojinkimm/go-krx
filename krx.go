@@ -1,33 +1,33 @@
-package main
+package krx
 
 type KOSPI struct {
-	kospi           string
-	kospiUpDown     string
-	kospiDayOverDay string
+	KOSPIIndex      string
+	KOSPIUpDown     string
+	KOSPIDayOverDay string
 }
 
 type KOSPI200 struct {
-	kospi200           string
-	kospi200UpDown     string
-	kospi200DayOverDay string
+	KOSPI200           string
+	KOSPI200UpDown     string
+	KOSPI200DayOverDay string
 }
 
 type KOSDAQ struct {
-	kosdaq           string
-	kosdaqUpDown     string
-	kosdaqDayOverDay string
+	KOSDAQIndex      string
+	KOSDAQUpDown     string
+	KOSDAQDayOverDay string
 }
 
 type KOSDAQStarIndex struct {
-	kosdaqStarIndex           string
-	kosdaqStarIndexUpDown     string
-	kosdaqStarIndexDayOverDay string
+	KOSDAQStarIndex           string
+	KOSDAQStarIndexUpDown     string
+	KOSDAQStarIndexDayOverDay string
 }
 
 type KRX100 struct {
-	krx100           string
-	krx100UpDown     string
-	krx100DayOverDay string
+	KRX100Index      string
+	KRX100UpDown     string
+	KRX100DayOverDay string
 }
 
 func GetKOSPI() (*KOSPI, error) {
@@ -37,9 +37,9 @@ func GetKOSPI() (*KOSPI, error) {
 	}
 
 	return &KOSPI{
-		kospi:           s.StockInfo.KospiJisu,
-		kospiUpDown:     s.StockInfo.KospiBuho,
-		kospiDayOverDay: s.StockInfo.KospiDebi,
+		KOSPIIndex:      s.StockInfo.KospiJisu,
+		KOSPIUpDown:     s.StockInfo.KospiBuho,
+		KOSPIDayOverDay: s.StockInfo.KospiDebi,
 	}, nil
 }
 
@@ -50,9 +50,9 @@ func GetKOSPI200() (*KOSPI200, error) {
 	}
 
 	return &KOSPI200{
-		kospi200:           s.StockInfo.Kospi200Jisu,
-		kospi200UpDown:     s.StockInfo.Kospi200Buho,
-		kospi200DayOverDay: s.StockInfo.Kospi200Debi,
+		KOSPI200:           s.StockInfo.Kospi200Jisu,
+		KOSPI200UpDown:     s.StockInfo.Kospi200Buho,
+		KOSPI200DayOverDay: s.StockInfo.Kospi200Debi,
 	}, nil
 }
 
@@ -63,9 +63,9 @@ func GetKOSDAQ() (*KOSDAQ, error) {
 	}
 
 	return &KOSDAQ{
-		kosdaq:           s.StockInfo.KosdaqJisu,
-		kosdaqUpDown:     s.StockInfo.KosdaqJisuBuho,
-		kosdaqDayOverDay: s.StockInfo.KosdaqJisuDebi,
+		KOSDAQIndex:      s.StockInfo.KosdaqJisu,
+		KOSDAQUpDown:     s.StockInfo.KosdaqJisuBuho,
+		KOSDAQDayOverDay: s.StockInfo.KosdaqJisuDebi,
 	}, nil
 }
 
@@ -76,9 +76,9 @@ func GetKOSDAQStarIndex() (*KOSDAQStarIndex, error) {
 	}
 
 	return &KOSDAQStarIndex{
-		kosdaqStarIndex:           s.StockInfo.StarJisu,
-		kosdaqStarIndexUpDown:     s.StockInfo.StarJisuBuho,
-		kosdaqStarIndexDayOverDay: s.StockInfo.StarJisuDebi,
+		KOSDAQStarIndex:           s.StockInfo.StarJisu,
+		KOSDAQStarIndexUpDown:     s.StockInfo.StarJisuBuho,
+		KOSDAQStarIndexDayOverDay: s.StockInfo.StarJisuDebi,
 	}, nil
 }
 
@@ -89,8 +89,8 @@ func GetKRX100() (*KRX100, error) {
 	}
 
 	return &KRX100{
-		krx100:           s.StockInfo.Krx100Jisu,
-		krx100UpDown:     s.StockInfo.Krx100buho,
-		krx100DayOverDay: s.StockInfo.Krx100Debi,
+		KRX100Index:      s.StockInfo.Krx100Jisu,
+		KRX100UpDown:     s.StockInfo.Krx100buho,
+		KRX100DayOverDay: s.StockInfo.Krx100Debi,
 	}, nil
 }
