@@ -3,8 +3,10 @@ package krx
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
@@ -219,6 +221,9 @@ func GetSymbolByCompanyName(name string) (string, error) {
 }
 
 func getCompanyListFromJsonFile() ([]*Company, error) {
+	dir, err := os.Getwd()
+	fmt.Println(dir, err)
+
 	jsonFile, err := ioutil.ReadFile("data.json")
 	if err != nil {
 		return nil, errors.WithStack(err)
