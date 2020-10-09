@@ -219,7 +219,7 @@ func GetSymbolByCompanyName(name string) (string, error) {
 }
 
 func getCompanyListFromJsonFile() ([]*Company, error) {
-	jsonFile, err := ioutil.ReadFile("data/data.json")
+	jsonFile, err := ioutil.ReadFile("data.json")
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
