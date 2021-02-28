@@ -1,9 +1,10 @@
 package krx
 
 import (
+	_ "embed"
 	"encoding/json"
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -146,6 +147,9 @@ const (
 	Unknown
 )
 
+//go:embed data/data.json
+var file []byte
+
 func getStockInfoBySymbol(symbol string) (*StockInformation, error) {
 	url := "http://asp1.krx.co.kr/servlet/krx.asp.XMLSiseEng?code="
 	resp, err := http.Get(url + symbol)
@@ -158,15 +162,14 @@ func getStockInfoBySymbol(symbol string) (*StockInformation, error) {
 		}
 	}()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
 	var stockInfo *StockInformation
-	xmlerr := xml.Unmarshal(bodyBytes, &stockInfo)
-	if xmlerr != nil {
-		return nil, errors.WithStack(xmlerr)
+	if err := xml.Unmarshal(bodyBytes, &stockInfo); err != nil {
+		return nil, errors.WithStack(err)
 	}
 
 	if len(stockInfo.TBLDailyStock.DailyStock) == 0 {
@@ -188,15 +191,14 @@ func getKRXMarketInfo() (*StockInformation, error) {
 		}
 	}()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
 	var stockInfo *StockInformation
-	xmlerr := xml.Unmarshal(bodyBytes, &stockInfo)
-	if xmlerr != nil {
-		return nil, errors.WithStack(xmlerr)
+	if err := xml.Unmarshal(bodyBytes, &stockInfo); err != nil {
+		return nil, errors.WithStack(err)
 	}
 
 	return stockInfo, nil
@@ -208,7 +210,6 @@ func GetSymbolByCompanyName(name string) (string, error) {
 		return "", err
 	}
 
-	// TODO @dojinkimm - find element more efficiently (e.g. binary search)
 	for _, c := range companyInfo {
 		if c.Name == name {
 			return c.Symbol, nil
@@ -219,13 +220,8 @@ func GetSymbolByCompanyName(name string) (string, error) {
 }
 
 func getCompanyListFromJsonFile() ([]*Company, error) {
-	jsonFile, err := ioutil.ReadFile("data/data.json")
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-
 	var companies []*Company
-	if err = json.Unmarshal(jsonFile, &companies); err != nil {
+	if err := json.Unmarshal(file, &companies); err != nil {
 		return nil, errors.WithStack(err)
 	}
 

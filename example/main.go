@@ -11,5 +11,5 @@ func main() {
 	fmt.Println(kospi, err)
 
 	symbol, err := krx.GetSymbolByCompanyName("삼성전자")
-	fmt.Println(symbol, err)
+	fmt.Println(symbol, err) //005930, nil
 }

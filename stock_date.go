@@ -21,6 +21,7 @@ func GetStockBySymbolAndDate(symbol string, date int) ([]*DailyStock, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	sort.Slice(s.TBLDailyStock.DailyStock, func(i, j int) bool {
 		return s.TBLDailyStock.DailyStock[i].DayDate > s.TBLDailyStock.DailyStock[j].DayDate
 	})
